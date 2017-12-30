@@ -1,0 +1,10 @@
+[ 2017-12-23T17:01:17+08:00 ] ::1 /thinkphpbasesystem/
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000766s ]
+
+[ 2017-12-23T17:01:23+08:00 ] ::1 /thinkphpbasesystem/index.php
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000027s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000491s ]
+

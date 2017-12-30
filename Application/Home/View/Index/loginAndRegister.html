@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="__PUBLIC__/css/common.css" />
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+		<script type="text/javascript" src="__PUBLIC__/layui/layui.js" ></script>
+	</head>
+	<body style="background-image: url('__PUBLIC__/img/loginBack.jpg');background-repeat: no-repeat;background-size:100%;">
+	<div class="layui-row" style="height: 300px;">
+    
+  </div>
+  <div class="layui-row">
+    
+  
+	<div class="layui-tab layui-tab-card" style="width: 28%;margin: 0px auto;">
+		  <ul class="layui-tab-title">
+		    <li class="layui-this">登录</li>
+		    <li>注册</li>
+		  </ul>
+		  <div class="layui-tab-content" style="background-color: white;">
+		    <div class="layui-tab-item layui-show">
+		    	<form class="layui-form" action="" >
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">用户名</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+					    </div>
+					  </div>
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">密码</label>
+					    <div class="layui-input-block">
+					      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+					    </div>
+					  </div>
+					  
+					  <div class="layui-form-item">
+						    <label class="layui-form-label">角色</label>
+						    <div class="layui-input-block">
+						      <select name="role" lay-filter="role">
+						        <option value="学生">学生</option>
+						        <option value="教师">教师</option>
+						        <option value="管理员">管理员</option>
+						      </select>
+						    </div>
+						  </div>
+					  
+					   <div class="layui-form-item">
+						    <div class="layui-input-block">
+						      <button class="layui-btn" lay-submit="" lay-filter="login">登录</button>
+						      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						    </div>
+						  </div>
+				</form>
+			</div>
+		    <div class="layui-tab-item">
+					<form class="layui-form" action="" lay-filter="register">
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">用户名</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="userName" lay-verify="title" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+						    </div>
+						  </div>
+						  
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">密码</label>
+						    <div class="layui-input-block">
+						      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+						    </div>
+						  </div>
+						  
+						  <div class="layui-form-item">
+						    <label class="layui-form-label">真实姓名</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="trueName" lay-verify="title" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
+						    </div>
+						  </div>
+						  
+						  <div class="layui-form-item">
+							    <label class="layui-form-label">角色</label>
+							    <div class="layui-input-block">
+							      <select name="role" lay-filter="role">
+							        <option value="学生">学生</option>
+							        <option value="教师">教师</option>
+							        <option value="管理员">管理员</option>
+							      </select>
+							    </div>
+							  </div>
+							  
+							  
+						<div class="layui-form-item">
+							    <label class="layui-form-label">课程</label>
+							    <div class="layui-input-block">
+							      <select name="lesson" lay-filter="lesson">
+							        <option value="语文">语文</option>
+							        <option value="数学">数学</option>
+							        <option value="英语">英语</option>
+							        <option value="物理">物理</option>
+							        <option value="化学">化学</option>
+							        <option value="生物">生物</option>
+							        <option value="体育">体育</option>
+							      </select>
+							    </div>
+							  </div>
+						  
+						   <div class="layui-form-item">
+							    <div class="layui-input-block">
+							      <button class="layui-btn" lay-submit="" lay-filter="register">注册</button>
+							      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							    </div>
+							  </div>
+					</form>
+			</div>
+		  </div>
+		</div>
+	</div>
+	</body>
+<script>
+	var APP = "__APP__";
+	var PUBLIC = "__PUBLIC__";
+	//加载选项卡模块------------------------------------------------------------------
+	layui.use('element', function(){
+	  var element = layui.element;
+	  
+	  //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+	  var layid = location.hash.replace(/^#test1=/, '');
+	  element.tabChange('test1', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
+	  
+	  //监听Tab切换，以改变地址hash值
+	  element.on('tab(test1)', function(){
+	    location.hash = 'test1='+ this.getAttribute('lay-id');
+	  });
+	});
+	//加载表单模块-----------------------------------------------------------------
+	layui.use('form', function(){
+	  var form = layui.form;
+	  //监听提交
+		//监听提交
+	  form.on('submit(login)', function(data){
+		  var data = JSON.stringify(data.field)
+		  $.ajax({ 
+			  type: "post",
+			  contentType:'application/x-www-form-urlencoded',
+			  url: APP+"/Home/Index/login", 
+			  data: data,
+			  success: function(data){
+				  data = eval("("+data+")");
+				  var layer = window.top.layer;
+				  layer.msg(data.msg);
+				  if(data.success == 'true'){
+					  window.location.href = APP + "/Home/Index/admin";
+				  }
+				} 
+			});
+		  return false;
+	  });
+	  //注册-------------------------------------------------------------------------
+	  form.on('submit(register)', function(data){
+		  var data = JSON.stringify(data.field)
+		  $.ajax({ 
+			  type: "post",
+			  contentType:'application/x-www-form-urlencoded',
+			  url: APP+"/Home/Index/register", 
+			  data: data,
+			  success: function(data){
+				  data = eval("("+data+")");
+				  var layer = window.top.layer;
+				  layer.msg(data.msg);
+				  if(data.success == 'true'){
+					  window.location = APP + "/Home/Index/index";
+				  }
+				} 
+			});
+		  return false;
+	  });
+	});
+</script> 
+</html>

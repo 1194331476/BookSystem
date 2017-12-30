@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="__PUBLIC__/css/common.css" />
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+		<script type="text/javascript" src="__PUBLIC__/layui/layui.js" ></script>
+	</head>
+	<body>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-md12" style="background-color: #393D49;background-image: url('__PUBLIC__/img/systemName.png'); background-repeat: no-repeat;">
+				<div class="grid-demo grid-demo-bg2">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+					      &nbsp;
+					    </div>
+					    <div class="layui-col-xs6 layui-col-sm6 layui-col-md7">
+					     &nbsp;
+					    </div>
+					    <div class="layui-col-xs4 layui-col-sm12 layui-col-md2">
+					      		<ul class="layui-nav">
+								<li class="layui-nav-item" lay-unselect="">
+									<a href="javascript:;"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">{$Think.session.user.truename}</a>
+									<dl class="layui-nav-child">
+										<dd>
+											<a href="__APP__/Home/Index/index">退了</a>
+										</dd>
+									</dl>
+								</li>
+							</ul>
+					    </div>
+					
+					
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-md2">
+				<div class="grid-demo">
+					<ul id="dh" style="width: 100%;" class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
+						<volist name=":session('userPowerList')" id="power">
+							<li class="layui-nav-item">
+								<a href="javascript:;">{$power.powername}</a>
+								<dl class="layui-nav-child">
+									<volist name="power.children" id="son">
+									<dd link-url="{$son.powerurl}">
+										<a>{$son.powername}</a>
+									</dd>
+									</volist>
+								</dl>
+							</li> 
+						</volist>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-col-xs12 layui-col-md10">
+				<div style="margin: 0px;width: 99.5%;" class="layui-tab layui-tab-card" lay-allowClose="true" lay-filter="tabs">
+				  <ul class="layui-tab-title"></ul>
+				  <div style="padding: 0px;" class="layui-tab-content"></div>
+			</div>
+		</div>
+	</div>
+		<script type="text/javascript">
+			var APP = "__APP__";
+		</script>
+		<script type="text/javascript" src="__PUBLIC__/js/admin.js" ></script>
+	</body>
+</html>

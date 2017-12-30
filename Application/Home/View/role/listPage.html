@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="__PUBLIC__/css/common.css" />
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+		<script type="text/javascript" src="__PUBLIC__/layui/layui.js" ></script>
+		<style type="text/css">
+		.layui-table-view{
+			margin-top: 0px;
+		}
+</style>
+	</head>
+	<body style="padding-left: 10px;padding-right: 10px;">
+	
+	<div class="layui-row" style="padding-top: 30px;">
+    <font style="font-size: 25px;color: gray;">角色列表&nbsp;&nbsp;&nbsp;<i class="layui-icon">&#xe65b;</i> </font>
+	<hr class="layui-bg-gray">
+	<div style="margin-top: 30px;" class="layui-form-item">
+		<label class="layui-form-label" style="text-align: center;">角色名</label>
+		<div class="layui-input-inline">
+			<input type="text" id='rolename' name="rolename" lay-verify="required"
+				placeholder="请输入" autocomplete="off" class="layui-input">
+		</div>
+		<button class="layui-btn" onclick="search()"><i class="layui-icon">&#xe615;</i></button>
+	</div>
+	<div style="margin-top: 20px;margin-bottom: 10px;width: 100%;text-align: right;" class="layui-btn-group">
+	    <button class="layui-btn" onclick="toAdd()">新增</button>
+	    <button class="layui-btn" onclick="toEdit()">编辑</button>
+	    <button class="layui-btn" onclick="del()">删除</button>
+	  </div>
+  </div>
+<div class="layui-row">
+    <table id="demo" lay-filter="test"></table>
+  </div>
+	<script type="text/javascript">
+			var APP = "__APP__";
+			var PUBLIC = "__PUBLIC__";
+			var tableHeight = $("body").height()-$($(".layui-row")[0]).height()-50;
+			layui.use('table', function(){
+			  var table = layui.table;
+			  //第一个实例
+			  table.render({
+			    elem: '#demo'
+			    ,id: 'idTest'
+			    ,height: tableHeight
+			    ,url: APP + '/Home/Role/getPageList' //数据接口
+			    ,where: {'rolename': $("#rolename").val()} //如果无需传递额外参数，可不加该参数
+			    ,page: true //开启分页
+			    ,limit:10
+			    ,limits:[10,20,30]
+			    ,cols: [[ 
+			      {checkbox: true}
+			     ,{field: 'rolename', title: '角色名',width:160}
+			     ,{field: 'option', title: '操作',width:160, toolbar: '#barDemo'}
+			    ]]
+			  });
+				//监听工具条
+			  table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			    var data = obj.data; //获得当前行数据
+			    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			    //弹出选择权限的表格
+			    if(layEvent === 'powerTable'){ //查看
+			    	var layer = window.top.layer;
+					layer.open({
+					  type: 2, 
+					  title:'选择权限',
+					  area: ['70%', '65%'],
+					  content: APP + '/Home/Role/powerTable?roleId='+data.id, //数据接口
+					  end : function(){
+						  //window.location.reload();
+					  }
+					});
+			    } 
+			  });
+			});
+			//条件查询------------------------------------------------------------------------------------
+			function search(){
+				layui.use('table', function(){
+				  var table = layui.table;
+				  table.reload('idTest', {
+					  url: APP + '/Home/Role/getPageList' //数据接口
+					  ,where: {'rolename': $("#rolename").val()} //如果无需传递额外参数，可不加该参数
+					  //,height: 300
+					});
+				});
+			};
+			//跳转新增角色页面------------------------------------------------------------------------
+			function toAdd(){
+				var layer = window.top.layer;
+				layer.open({
+				  type: 2, 
+				  title:'新增角色',
+				  area: ['25%', '65%'],
+				  content: APP + '/Home/Role/toAdd', //数据接口
+				  end : function(){
+					  //window.location.reload();
+				  }
+				});
+			};
+			//跳转编辑角色页面------------------------------------------------------------------------
+			function toEdit(){
+				var layer = window.top.layer;
+				layui.use('table', function(){
+					var table = layui.table;
+					var checkStatus = table.checkStatus('idTest'); //test即为基础参数id对应的值
+					var rows = checkStatus.data;
+					var layer = window.top.layer;
+					if(rows.length == 1){
+						layer.open({
+						  type: 2, 
+						  title:'编辑角色',
+						  area: ['25%', '65%'],
+						  content: APP + '/Home/Role/toEdit?id='+rows[0].id, //数据接口
+						  end : function(){
+							  //window.location.reload();
+						  }
+						});
+					}else{
+						layer.msg("请选择一条记录！");
+					}
+				});
+			};
+			//删除角色页面------------------------------------------------------------------------
+			function del(){
+				layui.use('table', function(){
+					var table = layui.table;
+					var checkStatus = table.checkStatus('idTest'); //test即为基础参数id对应的值
+					var rows = checkStatus.data;
+					var layer = window.top.layer;
+					if(rows.length == 0){
+						layer.msg("请选择至少一条记录！");
+					}else{
+						var id = "";
+						console.info(rows);
+						for(var i=0;i<rows.length;i++){
+							id += rows[i].id+",";
+						}
+						$.ajax({
+							  type: "post",
+							  contentType:'application/x-www-form-urlencoded',
+							  url: APP+"/Home/Role/del", 
+							  data: {"id":id},
+							  success: function(data){
+								  data = eval("("+data+")");
+								  layer.msg(data.msg);
+								  location.reload();//刷新页面
+							  } 
+						});
+					}
+				});
+			};
+		</script>
+		<script type="text/html" id="barDemo">
+  			<a class="layui-btn layui-btn-mini" lay-event="powerTable">分配权限</a>
+	</script>
+	</body>
+</html>
