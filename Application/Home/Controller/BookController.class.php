@@ -52,8 +52,8 @@ class BookController extends Controller {
      * 跳转新增页面
      * */
     public function toAdd(){
-        $roleList = M("role")->order("id desc")->select();
-        $this->assign("roleList",$roleList);
+        $bookTypeList = M("booktype")->order("id asc")->select();
+        $this->assign("bookTypeList",$bookTypeList);
         $this->display();
     }
     /**
@@ -64,21 +64,14 @@ class BookController extends Controller {
         $data = file_get_contents("php://input");
         $data = json_decode($data,true);
         //根据用户名查询
-        $list = M("Book")->where('Bookname = "'.$data['BookName'].'"')->select();
+        $list = M("Book")->where('barcode = "'.$data['barcode'].'"')->select();
         $result = array("success"=>"true","msg"=>"新增成功");
         if(count($list)>0){
             //用户名重复
             $result['success'] = 'false';
-            $result['msg'] = '用户名已存在';
+            $result['msg'] = '该书已存在';
         }else{
-            $BookId = $Book->add($data);
-            //遍历提交的表单，取出角色字段，新增映射关系
-            foreach ($data as $key => $value) {
-                if(strpos($key, "roleId") === 0){
-                    //是角色字段，新增用户角色映射关系
-                    M("Bookandrole")->add(array("BookId"=>$BookId,"roleId"=>$value));
-                }
-            }
+            $bookId = $Book->add($data);
         }
         echo json_encode($result);
     }

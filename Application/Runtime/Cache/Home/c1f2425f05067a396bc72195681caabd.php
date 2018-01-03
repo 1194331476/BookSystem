@@ -12,26 +12,47 @@
 	<form class="layui-form layui-form-pane" action="" style="padding-top: 20px;padding-left: 5px;">
    
 <div class="layui-form-item">
-    <label class="layui-form-label">用戶名</label>
+    <label class="layui-form-label">条码</label>
     <div class="layui-input-block">
-      <input type="text" name="userName" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+      <input type="text" name="barcode" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+    </div>
+  </div>
+   
+<div class="layui-form-item">
+    <label class="layui-form-label">书名</label>
+    <div class="layui-input-block">
+      <input type="text" name="bookName" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
     </div>
   </div>
   
 <div class="layui-form-item">
-    <label class="layui-form-label">真实姓名</label>
+    <label class="layui-form-label">作者</label>
     <div class="layui-input-block">
-      <input type="text" name="trueName" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+      <input type="text" name="author" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
     </div>
   </div>
   
-  <div class="layui-form-item">
-    <label class="layui-form-label">角色</label>
+<div class="layui-form-item">
+    <label class="layui-form-label">数量</label>
     <div class="layui-input-block">
-    	<?php if(is_array($roleList)): $i = 0; $__LIST__ = $roleList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$role): $mod = ($i % 2 );++$i;?><input type="checkbox" name="roleId[<?php echo ($key); ?>]" value="<?php echo ($role["id"]); ?>" title="<?php echo ($role["rolename"]); ?>"><?php endforeach; endif; else: echo "" ;endif; ?>
-      <!-- <input type="checkbox" name="like[write]" title="写作">
-      <input type="checkbox" name="like[read]" title="阅读" checked="">
-      <input type="checkbox" name="like[game]" title="游戏"> -->
+      <input type="text" name="num" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+    </div>
+  </div>
+  
+<div class="layui-form-item">
+    <label class="layui-form-label">价格</label>
+    <div class="layui-input-block">
+      <input type="text" name="price" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+    </div>
+  </div>
+  
+  
+  <div class="layui-form-item">
+  	<label class="layui-form-label">图书分类</label>
+    <div class="layui-input-block">
+      <select name="bookType" lay-verify="required">
+      	<?php if(is_array($bookTypeList)): $i = 0; $__LIST__ = $bookTypeList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$bookType): $mod = ($i % 2 );++$i;?><option value="<?php echo ($bookType["id"]); ?>"><?php echo ($bookType["booktypename"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
+      </select>
     </div>
   </div>
   
@@ -53,7 +74,7 @@
 					  $.ajax({ 
 						  type: "post",
 						  contentType:'application/x-www-form-urlencoded',
-						  url: APP+"/Home/User/add", 
+						  url: APP+"/Home/Book/add", 
 						  data: data,
 						  success: function(data){
 							  data = eval("("+data+")");

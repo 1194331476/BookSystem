@@ -76,8 +76,8 @@
 				var layer = window.top.layer;
 				layer.open({
 				  type: 2, 
-				  title:'新增用戶',
-				  area: ['40%', '45%'],
+				  title:'新增图书',
+				  area: ['40%', '62%'],
 				  content: APP + '/Home/Book/toAdd', //数据接口
 				  end : function(){
 					  //window.location.reload();
@@ -96,7 +96,7 @@
 						layer.open({
 						  type: 2, 
 						  title:'编辑图书',
-						  area: ['32%', '50%'],
+						  area: ['32%', '60%'],
 						  content: APP + '/Home/Book/toEdit?id='+rows[0].id, //数据接口
 						  end : function(){
 							  //window.location.reload();

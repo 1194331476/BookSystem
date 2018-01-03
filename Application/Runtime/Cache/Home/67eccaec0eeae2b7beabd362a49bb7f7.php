@@ -56,6 +56,7 @@
 			     ,{field: 'bookname', title: '图书名',width:200}
 			     ,{field: 'author', title: '作者',width:160}
 			    ,{field: 'num', title: '剩余数量',width:120}
+			    ,{field: 'price', title: '价格',width:120}
 			    ]]
 			  });
 			});
@@ -75,8 +76,8 @@
 				var layer = window.top.layer;
 				layer.open({
 				  type: 2, 
-				  title:'新增用戶',
-				  area: ['40%', '45%'],
+				  title:'新增图书',
+				  area: ['40%', '62%'],
 				  content: APP + '/Home/Book/toAdd', //数据接口
 				  end : function(){
 					  //window.location.reload();
