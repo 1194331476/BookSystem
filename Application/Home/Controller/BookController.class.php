@@ -98,10 +98,13 @@ class BookController extends Controller {
      * 跳转编辑页面
      * */
     public function toEdit(){
-        $roleList = M()->query('select r.*,ur.BookId from role r LEFT JOIN Bookandrole ur on ur.roleId = r.id and ur.BookId = '.$_GET["id"]." order by id asc");
-        $this->assign("roleList",$roleList);
-        $Book = M("Book")->where("id = ".$_GET["id"])->select();
-        $this->assign('Book',$Book[0]);
+       $bookTypeList = M()->query("select bt.*,case when b.id IS NOT null then 'selected' else '' end as isType 
+                                    from booktype bt 
+                                    LEFT JOIN book b on bt.id=b.bookType and b.id=".$_GET["id"]." 
+                                    order by id asc");
+        $this->assign("bookTypeList",$bookTypeList);
+        $book = M("Book")->where("id = ".$_GET["id"])->select();
+        $this->assign('book',$book[0]);
         $this->display();
     }
     /**
@@ -109,19 +112,10 @@ class BookController extends Controller {
      * */
     public function edit(){
         $result = array("success"=>"true","msg"=>"修改成功");
-        $Book = M("Book"); // 实例化Book对象
+        $book = M("Book"); // 实例化Book对象
         $data = file_get_contents("php://input");
         $data = json_decode($data,true);
-        $Book->where('id = "'.$data['id'].'"')->save($data);
-        //删除原本的角色，换成刚刚修改的角色
-        M("Bookandrole")->where("BookId = ".$data['id'])->delete();
-        //遍历提交的表单，取出角色字段，新增映射关系
-        foreach ($data as $key => $value) {
-            if(strpos($key, "roleId") === 0){
-                //是角色字段，新增用户角色映射关系
-                M("Bookandrole")->add(array("BookId"=>$data['id'],"roleId"=>$value));
-            }
-        }
+        $book->where('id = "'.$data['id'].'"')->save($data);
         echo json_encode($result);
     }
 }

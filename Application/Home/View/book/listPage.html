@@ -21,7 +21,7 @@
 	<div style="margin-top: 30px;" class="layui-form-item">
 		<label class="layui-form-label" style="text-align: center;">书名</label>
 		<div class="layui-input-inline">
-			<input type="text" id='truename' name="truename" lay-verify="required"
+			<input type="text" id='bookname' name="bookname" lay-verify="required"
 				placeholder="请输入" autocomplete="off" class="layui-input">
 		</div>
 		<button class="layui-btn" onclick="search()"><i class="layui-icon">&#xe615;</i></button>
@@ -66,7 +66,7 @@
 				  var table = layui.table;
 				  table.reload('idTest', {
 					  url: APP + '/Home/Book/getPageList' //数据接口
-					  ,where: {'truename': $("#truename").val()} //如果无需传递额外参数，可不加该参数
+					  ,where: {'bookname': $("#bookname").val()} //如果无需传递额外参数，可不加该参数
 					  //,height: 300
 					});
 				});
@@ -96,7 +96,7 @@
 						layer.open({
 						  type: 2, 
 						  title:'编辑图书',
-						  area: ['32%', '60%'],
+						  area: ['40%', '80%'],
 						  content: APP + '/Home/Book/toEdit?id='+rows[0].id, //数据接口
 						  end : function(){
 							  //window.location.reload();

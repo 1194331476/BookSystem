@@ -9,8 +9,8 @@
 		<script type="text/javascript" src="/booksystem/Public/layui/layui.js" ></script>
 	</head>
 	<body>
-	<form class="layui-form layui-form-pane" action="" style="padding-top: 20px;padding-left: 5px;">
-   
+	<form class="layui-form layui-form-pane" enctype="multipart/form-data" method="post" action="" style="padding-top: 20px;padding-left: 5px;">
+   <input type="hidden" name="cover" id="cover" value=""/>
 <div class="layui-form-item">
     <label class="layui-form-label">条码</label>
     <div class="layui-input-block">
@@ -55,6 +55,15 @@
       </select>
     </div>
   </div>
+  <img alt="" src="/booksystem/Uploads/<?php echo ($book["cover"]); ?>" height="200px">
+  <div class="layui-form-item">
+  	<label class="layui-form-label">封面上传</label>
+    <div class="layui-input-block">
+      <button type="button" class="layui-btn" id="test1">
+		  <i class="layui-icon">&#xe67c;</i>上传图片
+		</button>
+    </div>
+  </div>
   
   <div class="layui-form-item">
     <div class="layui-input-block">
@@ -86,6 +95,26 @@
 							} 
 						});
 					  return false;
+				  });
+				});
+			//文件上传------------------------------------------------------------------------
+			layui.use('upload', function(){
+				  var upload = layui.upload;
+				  //执行实例
+				  var uploadInst = upload.render({
+				    elem: '#test1' //绑定元素
+				    ,url: APP+"/Home/File/uploadOne" //上传接口
+				    ,accept:"images"
+				    ,method:"post"
+				    ,done: function(res){
+				    	$("#cover").val(res.savepath+res.savename);
+				    	$("img").attr("src","/booksystem/Uploads/"+res.savepath+res.savename);
+				    	var layer = window.top.layer;
+				    	layer.msg("封面上传成功！");
+				    }
+				    ,error: function(res){
+				    	
+				    }
 				  });
 				});
 		</script>

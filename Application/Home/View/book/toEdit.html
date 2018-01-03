@@ -9,45 +9,71 @@
 		<script type="text/javascript" src="__PUBLIC__/layui/layui.js" ></script>
 	</head>
 	<body>
-	<form class="layui-form layui-form-pane" action="" lay-filter="register" style="padding-top: 20px;padding-left: 5px;">
-	
-	<input type="hidden" name="id" value="{$user.id}" readonly="readonly" lay-verify="required" autocomplete="off"  class="layui-input">
-		
+	<form class="layui-form layui-form-pane" enctype="multipart/form-data" method="post" action="" style="padding-top: 20px;padding-left: 5px;">
+   <input type="hidden" name="id" id="id" value="{$book.id}"/>
+   <input type="hidden" name="cover" id="cover" value="{$book.cover}"/>
 <div class="layui-form-item">
-    <label class="layui-form-label">用戶名</label>
+    <label class="layui-form-label">条码</label>
     <div class="layui-input-block">
-      <input type="text" name="userName" value="{$user.username}" readonly="readonly" lay-verify="required" autocomplete="off"  class="layui-input">
+      <input type="text" name="barcode" value="{$book.barcode}" lay-verify="required" autocomplete="off"  class="layui-input">
+    </div>
+  </div>
+   
+<div class="layui-form-item">
+    <label class="layui-form-label">书名</label>
+    <div class="layui-input-block">
+      <input type="text" name="bookName" value="{$book.bookname}" lay-verify="required" autocomplete="off"  class="layui-input">
     </div>
   </div>
   
 <div class="layui-form-item">
-    <label class="layui-form-label">真实姓名</label>
+    <label class="layui-form-label">作者</label>
     <div class="layui-input-block">
-      <input type="text" name="trueName" value="{$user.truename}" lay-verify="required" autocomplete="off"  class="layui-input">
+      <input type="text" name="author" value="{$book.author}" lay-verify="required" autocomplete="off"  class="layui-input">
     </div>
   </div>
+  
+<div class="layui-form-item">
+    <label class="layui-form-label">数量</label>
+    <div class="layui-input-block">
+      <input type="text" name="num" value="{$book.num}" lay-verify="required" autocomplete="off"  class="layui-input">
+    </div>
+  </div>
+  
+<div class="layui-form-item">
+    <label class="layui-form-label">价格</label>
+    <div class="layui-input-block">
+      <input type="text" name="price" value="{$book.price}" lay-verify="required" autocomplete="off"  class="layui-input">
+    </div>
+  </div>
+  
   
   <div class="layui-form-item">
-    <label class="layui-form-label">角色</label>
+  	<label class="layui-form-label">图书分类</label>
     <div class="layui-input-block">
-    	<volist name="roleList" id="role">
-    		<if condition="$role.userid == '' ">
-    			<input type="checkbox" name="roleId[{$key}]" value="{$role.id}" title="{$role.rolename}" >
-			    <else /> 
-			    <input type="checkbox" name="roleId[{$key}]" value="{$role.id}" title="{$role.rolename}" checked>
-			</if>
+      <select name="bookType" lay-verify="required">
+      	<volist name="bookTypeList" id="bookType">
+      	<option value="{$bookType.id}" {$bookType.istype}>{$bookType.booktypename}</option>
 		</volist>
+      </select>
     </div>
   </div>
-						  
-						  
-						   <div class="layui-form-item">
-							    <div class="layui-input-block">
-							      <button class="layui-btn" lay-submit="" lay-filter="formDemo">修改</button>
-							      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-							    </div>
-							  </div>
-					</form>
+  <img alt="" src="__ROOT__/Uploads/{$book.cover}" height="200px">
+  <div class="layui-form-item">
+  	<label class="layui-form-label">封面上传</label>
+    <div class="layui-input-block">
+      <button type="button" class="layui-btn" id="test1">
+		  <i class="layui-icon">&#xe67c;</i>修改封面
+		</button>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
 	<script type="text/javascript">
 			var APP = "__APP__";
 			var PUBLIC = "__PUBLIC__";
@@ -59,7 +85,7 @@
 					  $.ajax({ 
 						  type: "post",
 						  contentType:'application/x-www-form-urlencoded',
-						  url: APP+"/Home/User/edit", 
+						  url: APP+"/Home/Book/edit", 
 						  data: data,
 						  success: function(data){
 							  data = eval("("+data+")");
@@ -72,6 +98,26 @@
 							} 
 						});
 					  return false;
+				  });
+				});
+			//文件上传------------------------------------------------------------------------
+			layui.use('upload', function(){
+				  var upload = layui.upload;
+				  //执行实例
+				  var uploadInst = upload.render({
+				    elem: '#test1' //绑定元素
+				    ,url: APP+"/Home/File/uploadOne" //上传接口
+				    ,accept:"images"
+				    ,method:"post"
+				    ,done: function(res){
+				    	$("#cover").val(res.savepath+res.savename);
+				    	$("img").attr("src","__ROOT__/Uploads/"+res.savepath+res.savename);
+				    	var layer = window.top.layer;
+				    	layer.msg("封面上传成功！");
+				    }
+				    ,error: function(res){
+				    	
+				    }
 				  });
 				});
 		</script>
