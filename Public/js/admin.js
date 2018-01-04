@@ -20,7 +20,7 @@ layui.use(['element', 'layer'], function() {
 		//新增tab
 		var title = elem.text();
 		var url = $(elem).attr("link-url");
-		var content = '<iframe scrolling="no" width="100%" height="'+iframeHeight+'px" src="'+APP+url+'"></iframe>';
+		var content = '<iframe frameborder="0" scrolling="no" width="100%" height="'+iframeHeight+'px" src="'+APP+url+'"></iframe>';
 		var id = elem.text();
 		active.tabAdd(title,content,id);
 		active.tabChange(elem.text());

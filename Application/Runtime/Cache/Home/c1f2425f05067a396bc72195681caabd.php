@@ -10,7 +10,7 @@
 	</head>
 	<body>
 	<form class="layui-form layui-form-pane" enctype="multipart/form-data" method="post" action="" style="padding-top: 20px;padding-left: 5px;">
-   <input type="hidden" name="cover" id="cover" value=""/>
+   <input type="hidden" name="cover" id="cover" value="nocover.jpg"/>
 <div class="layui-form-item">
     <label class="layui-form-label">条码</label>
     <div class="layui-input-block">
@@ -55,7 +55,7 @@
       </select>
     </div>
   </div>
-  <img alt="" src="/booksystem/Uploads/<?php echo ($book["cover"]); ?>" height="200px">
+  <img alt="" src="/booksystem/Uploads/nocover.jpg" height="200px">
   <div class="layui-form-item">
   	<label class="layui-form-label">封面上传</label>
     <div class="layui-input-block">
